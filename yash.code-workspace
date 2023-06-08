@@ -1,0 +1,43 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\web devlopment"
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "iostream": "cpp",
+            "vector": "cpp"
+        },
+        "powershell.cwd": "c:\\Users\\dubey\\Documents\\C++"
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            
+
+            {
+                "name": "PowerShell Launch Current File",
+                "type": "PowerShell",
+                "request": "launch",
+                "script": "${file}",
+                "cwd": "${cwd}"
+            },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "preLaunchTask": "npm",
+            "request": "launch",
+            "type": "extensionHost"
+        }
+        ]
+    }
+}
