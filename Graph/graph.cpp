@@ -102,8 +102,8 @@ vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc, int co
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////Is Graph Bipartite/////////////////////////////////////////////////////////////////////////////////////////
-//Bipartite graph is the graph having only two color where every adjacent node have different color;
-bool bfs(int src, int n, vector<int> adj[], vector<int> &vis)
+// Bipartite graph is the graph having only two color where every adjacent node have different color;
+bool Bipartitebfs(int src, int n, vector<int> adj[], vector<int> &vis)
 {
 
     queue<pair<pair<int, int>, int>> q;
@@ -145,29 +145,58 @@ bool isBipartite(int n, vector<int> adj[])
     {
         if (vis[i] == -1)
         {
-            if (!bfs(i, n, adj, vis))
+            if (!Bipartitebfs(i, n, adj, vis))
                 return false;
         }
     }
     return true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//detect cycle in directed graph using DFS:
- bool dfs(int node,int vis[],vector<int> adj[], int pathvis[],vector<int> &safenode){
-      vis[node]=1;
-      pathvis[node]=1;
-      for(auto it:adj[node]){
-          if(!vis[it]){
-              if(dfs(it,vis,adj,pathvis,safenode)) return true;
-          }
-          else if(pathvis[it]){
-              return true;
-          }
-      }
-      safenode.push_back(node);
-      pathvis[node]=0;
-      return false;
- }
+// detect cycle in directed graph using DFS:
+bool dfs(int node, int vis[], vector<int> adj[], int pathvis[], vector<int> &safenode)
+{
+    vis[node] = 1;
+    pathvis[node] = 1;
+    for (auto it : adj[node])
+    {
+        if (!vis[it])
+        {
+            if (dfs(it, vis, adj, pathvis, safenode))
+                return true;
+        }
+        else if (pathvis[it])
+        {
+            return true;
+        }
+    }
+    safenode.push_back(node);
+    pathvis[node] = 0;
+    return false;
+}
+////////////////////////////////////////////////////////Toposort///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void dfstopo(int node, vector<int> adj[], int vis[], vector<int> &v)
+{
+    vis[node] = 1;
+    for (auto it : adj[node])
+    {
+        if (!vis[it])
+            dfstopo(it, adj, vis, v);
+    }
+    v.push_back(node);
+}
+vector<int> topoSort(int n, vector<int> adj[])
+{
+    int vis[n] = {0};
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        if (!vis[i])
+            dfstopo(i, adj, vis, v);
+    }
+    reverse(v.begin(), v.end());
+    return v;
+}
+
 // Driver Code
 int main()
 {
@@ -204,6 +233,6 @@ int main()
     // {
     //     cout << i << " ";
     // }
-    
+
     return 0;
 }
