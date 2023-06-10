@@ -173,7 +173,7 @@ bool dfs(int node, int vis[], vector<int> adj[], int pathvis[], vector<int> &saf
     pathvis[node] = 0;
     return false;
 }
-////////////////////////////////////////////////////////Toposort///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////Toposort-Using DFS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void dfstopo(int node, vector<int> adj[], int vis[], vector<int> &v)
 {
     vis[node] = 1;
@@ -196,7 +196,43 @@ vector<int> topoSort(int n, vector<int> adj[])
     reverse(v.begin(), v.end());
     return v;
 }
+//////////////////////////////////////////////////////Toposort-Using BFS(KAHN'S ALGORITHM)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> topoSort(int n, vector<int> adj[])
+{
 
+    queue<int> q;
+    vector<int> v;
+    vector<int> indegree(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        for (auto it : adj[i])
+            indegree[it]++;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (indegree[i] == 0)
+        {
+            q.push(i);
+            v.push_back(i);
+        }
+    }
+    while (!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for (auto it : adj[node])
+        {
+            indegree[it]--;
+            if (indegree[it] == 0)
+            {
+                q.push(it);
+                v.push_back(it);
+            }
+        }
+    }
+
+    return v;
+}
 // Driver Code
 int main()
 {
